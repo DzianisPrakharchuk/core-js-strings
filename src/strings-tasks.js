@@ -20,7 +20,10 @@
  *   getStringLength(undefined) => 0
  */
 function getStringLength(value) {
-  throw new Error('Not implemented');
+  if (value !== null && typeof value === 'string') {
+    return value.length;
+  }
+  return 0;
 }
 
 /**
