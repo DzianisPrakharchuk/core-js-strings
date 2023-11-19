@@ -152,8 +152,15 @@ function repeatString(str, times) {
  *   removeFirstOccurrences('I like legends', 'end') => 'I like legs'.
  *   removeFirstOccurrences('ABABAB', 'BA') => 'ABAB'.
  */
-function removeFirstOccurrences(/* str, value */) {
-  throw new Error('Not implemented');
+function removeFirstOccurrences(str, value) {
+  const IndexOfSubstring = str.indexOf(value);
+  if (IndexOfSubstring !== -1) {
+    const modifiedStr =
+      str.substring(0, IndexOfSubstring) +
+      str.substring(IndexOfSubstring + value.length);
+    return modifiedStr;
+  }
+  return str;
 }
 
 /**
@@ -168,8 +175,15 @@ function removeFirstOccurrences(/* str, value */) {
  *   removeLastOccurrences('I like legends', 'end') => 'I like legs'.
  *   removeLastOccurrences('ABABAB', 'BA') => 'ABAB'.
  */
-function removeLastOccurrences(/* str, value */) {
-  throw new Error('Not implemented');
+function removeLastOccurrences(str, value) {
+  const lastIndexOfSubstring = str.lastIndexOf(value);
+  if (lastIndexOfSubstring !== -1) {
+    const modifiedStr =
+      str.substring(0, lastIndexOfSubstring) +
+      str.substring(lastIndexOfSubstring + value.length);
+    return modifiedStr;
+  }
+  return str;
 }
 
 /**
@@ -406,8 +420,8 @@ function invertCase(str) {
  *   getStringFromTemplate('John','Doe') => 'Hello, John Doe!'
  *   getStringFromTemplate('Chuck','Norris') => 'Hello, Chuck Norris!'
  */
-function getStringFromTemplate(/* firstName, lastName */) {
-  throw new Error('Not implemented');
+function getStringFromTemplate(firstName, lastName) {
+  return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -420,8 +434,14 @@ function getStringFromTemplate(/* firstName, lastName */) {
  *   extractNameFromTemplate('Hello, John Doe!') => 'John Doe'
  *   extractNameFromTemplate('Hello, Chuck Norris!') => 'Chuck Norris'
  */
-function extractNameFromTemplate(/* value */) {
-  throw new Error('Not implemented');
+function extractNameFromTemplate(value) {
+  const valueWithoutComma = value.replace(/^!|!$/g, '');
+  const words = valueWithoutComma.split(' ');
+  const wordsWithoutExclamation = words.map((word) =>
+    word.replace(/\b!\b/g, '')
+  );
+  const resultString = wordsWithoutExclamation.slice(1).join(' ');
+  return resultString;
 }
 
 /**
@@ -435,8 +455,8 @@ function extractNameFromTemplate(/* value */) {
  *   unbracketTag('<span>') => 'span'
  *   unbracketTag('<a>') => 'a'
  */
-function unbracketTag(/* str */) {
-  throw new Error('Not implemented');
+function unbracketTag(str) {
+  return str.replace(/^<|>$/g, '');
 }
 
 /**
@@ -454,8 +474,9 @@ function unbracketTag(/* str */) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  const stringWithoutSemicolons = str.replace(/;/g, ' ');
+  return stringWithoutSemicolons.split(' ');
 }
 
 /**
@@ -474,8 +495,21 @@ function extractEmails(/* str */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const input = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  const output = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
+  const words = str.split(' ');
+  const wordsCoded = words.map((word) => {
+    const codedWord = word
+      .split('')
+      .map((char) => {
+        const index = input.indexOf(char);
+        return index !== -1 ? output[index] : char;
+      })
+      .join('');
+    return codedWord;
+  });
+  return wordsCoded.join(' ');
 }
 
 /**
@@ -502,8 +536,26 @@ function encodeToRot13(/* str */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const suits = ['♣', '♦', '♥', '♠'];
+  const numbers = [
+    'A',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    'J',
+    'Q',
+    'K',
+  ];
+  const cardValue = value.slice(0, -1);
+  const cardSuit = value[value.length - 1];
+  return numbers.indexOf(cardValue) + suits.indexOf(cardSuit) * numbers.length;
 }
 
 module.exports = {
